@@ -14,8 +14,6 @@ public class App
         System.out.println(num);
         BigInteger prob = BigInteger.probablePrime(65, new Random());
         System.out.println(prob);
-        System.out.println(PrimeGenerator.checkHexNumForTrialDivisionMethod(num));
-        System.out.println(PrimeGenerator.checkHexNumForTrialDivisionMethod(prob));
-        System.out.println(PrimeGenerator.checkMillerRabinTest(prob, 3));
+
     }
 }
