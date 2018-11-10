@@ -1,9 +1,12 @@
 package ua.assymcrypto;
 
-public class App 
+import ua.assymcrypto.util.RadixUtil;
+
+public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        int i = 305445566;
+        System.out.println(RadixUtil.decToHex(i));
     }
 }
