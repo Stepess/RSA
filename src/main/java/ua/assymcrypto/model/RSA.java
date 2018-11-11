@@ -6,35 +6,55 @@ import ua.assymcrypto.model.util.PrimeTests;
 import java.math.BigInteger;
 
 public class RSA {
-    public BigInteger[] generateKeyPair() {
-        return generateKeyPair(256);
+    public RSAKey generateKeyPair() {
+        BigInteger[] primeNums = generateKeyPrimeNumbersForKey();
+        BigInteger n = primeNums[0].multiply(primeNums[1]);
+        BigInteger eulersFunction = primeNums[0].subtract(BigInteger.ONE)
+                .multiply(primeNums[1].subtract(BigInteger.ONE));
+        BigInteger e = BigInteger.valueOf(2).pow(16).add(BigInteger.ONE);
+
+        if (!e.gcd(eulersFunction).equals(BigInteger.ONE)) {
+            System.err.println("ERROR");
+            e = PrimeGenerator.generateRandomPrimeBigIntegerInRange(BigInteger.valueOf(2), eulersFunction.subtract(BigInteger.ONE));
+        }
+
+        BigInteger d = e.modInverse(eulersFunction);
+
+        return new RSAKey(
+                new PrivateKey(primeNums[0], primeNums[1], d),
+                new PublicKey(n, e)
+        );
     }
 
-    public BigInteger[] generateKeyPair(int keySize) {
+    public BigInteger[] generateKeyPrimeNumbersForKey() {
+        return generateKeyPrimeNumbersForKey(256);
+    }
+
+    public BigInteger[] generateKeyPrimeNumbersForKey(int keySize) {
         BigInteger two = BigInteger.valueOf(2);
-        BigInteger[] keyPair = new BigInteger[2];
+        BigInteger[] numPair = new BigInteger[2];
 
-        keyPair[0] = PrimeGenerator.generateRandomPrimeIntegerWithBitLength(keySize-1);
-        keyPair[1] = PrimeGenerator.generateRandomPrimeIntegerWithBitLength(keySize-1);
+        numPair[0] = PrimeGenerator.generateRandomPrimeIntegerWithBitLength(keySize-1);
+        numPair[1] = PrimeGenerator.generateRandomPrimeIntegerWithBitLength(keySize-1);
 
-        BigInteger p = keyPair[0].multiply(BigInteger.valueOf(2)).add(BigInteger.ONE);
-        BigInteger q = keyPair[1].multiply(BigInteger.valueOf(2)).add(BigInteger.ONE);
+        BigInteger p = numPair[0].multiply(BigInteger.valueOf(2)).add(BigInteger.ONE);
+        BigInteger q = numPair[1].multiply(BigInteger.valueOf(2)).add(BigInteger.ONE);
 
         int i = 2;
         while(!PrimeTests.isPrime(p)) {
-            p = keyPair[0].multiply(two).multiply(BigInteger.valueOf(i)).add(BigInteger.ONE);
+            p = numPair[0].multiply(two).multiply(BigInteger.valueOf(i)).add(BigInteger.ONE);
             i++;
         }
 
         int j = 2;
         while(!PrimeTests.isPrime(q)) {
-            q = keyPair[1].multiply(two).multiply(BigInteger.valueOf(j)).add(BigInteger.ONE);
+            q = numPair[1].multiply(two).multiply(BigInteger.valueOf(j)).add(BigInteger.ONE);
             j++;
         }
 
-        keyPair[0] = p;
-        keyPair[1] = q;
+        numPair[0] = p;
+        numPair[1] = q;
 
-        return keyPair;
+        return numPair;
     }
 }
