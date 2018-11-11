@@ -1,4 +1,4 @@
-package ua.assymcrypto.util;
+package ua.assymcrypto.model.util;
 
 public class RadixUtil {
     private static final int NUMBER_OF_BITS_IN_HEX_BASE = 4;

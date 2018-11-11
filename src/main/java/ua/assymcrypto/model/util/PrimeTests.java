@@ -1,4 +1,4 @@
-package ua.assymcrypto.util;
+package ua.assymcrypto.model.util;
 
 import java.math.BigInteger;
 
