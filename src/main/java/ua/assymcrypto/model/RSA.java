@@ -6,6 +6,17 @@ import ua.assymcrypto.model.util.PrimeTests;
 import java.math.BigInteger;
 
 public class RSA {
+    private RSAKey key;
+
+    public BigInteger encrypt(BigInteger plainText) {
+        return plainText.modPow(key.getPublicKey().getE(), key.getPublicKey().getN());
+    }
+
+    public BigInteger decrypt(BigInteger cryptogram) {
+        return cryptogram.modPow(key.getPrivateKey().getD(), key.getPublicKey().getN());
+    }
+
+
     public RSAKey generateKeyPair() {
         BigInteger[] primeNums = generateKeyPrimeNumbersForKey();
         BigInteger n = primeNums[0].multiply(primeNums[1]);
@@ -20,10 +31,10 @@ public class RSA {
 
         BigInteger d = e.modInverse(eulersFunction);
 
-        return new RSAKey(
-                new PrivateKey(primeNums[0], primeNums[1], d),
-                new PublicKey(n, e)
-        );
+        key = new RSAKey(new PrivateKey(primeNums[0], primeNums[1], d),
+                new PublicKey(n, e));
+
+        return key;
     }
 
     public BigInteger[] generateKeyPrimeNumbersForKey() {
@@ -56,5 +67,9 @@ public class RSA {
         numPair[1] = q;
 
         return numPair;
+    }
+
+    public RSAKey getKey() {
+        return key;
     }
 }

@@ -2,6 +2,7 @@ package ua.assymcrypto;
 
 import ua.assymcrypto.model.RSA;
 import ua.assymcrypto.model.RSAKey;
+import ua.assymcrypto.model.util.PrimeGenerator;
 
 import java.math.BigInteger;
 import java.util.Arrays;
@@ -25,6 +26,24 @@ public class App
         RSAKey key = rsa.generateKeyPair();
 
         System.out.println(key);
+
+        BigInteger text = PrimeGenerator.generateRandomBigIntegerInRange(BigInteger.ZERO,
+                key.getPublicKey().getN().subtract(BigInteger.ONE));
+
+        System.out.println(text.toString(16));
+
+        BigInteger cypher = rsa.encrypt(text);
+
+        System.out.println(cypher.toString(16));
+
+        BigInteger plainTextAfterDecription = rsa.decrypt(cypher);
+
+        System.out.println(plainTextAfterDecription.toString(16));
+
+        System.out.println(plainTextAfterDecription.equals(text));
+
+
+
 
     }
 }
