@@ -11,15 +11,10 @@ public class App
 {
     public static void main( String[] args )
     {
-        BigInteger num = PrimeGenerator.generateRandomBigIntegerInRange(BigInteger.valueOf(13), new BigInteger("FFFFFFFFFFF", 16));
-        System.out.println(num);
-        BigInteger prob = BigInteger.probablePrime(65, new Random());
-        System.out.println(prob);
-
-        BigInteger prime = PrimeGenerator.generateRandomPrimeBigIntegerInRange(BigInteger.ZERO, prob);
-
-        System.out.println(prime);
-        System.out.println(PrimeTests.isPrime(prime));
+        BigInteger integer = new BigInteger(256, new Random());
+        System.out.println(integer);
+        BigInteger two = BigInteger.valueOf(2);
+        System.out.println(two.pow(256));
 
     }
 }

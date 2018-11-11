@@ -5,6 +5,15 @@ import java.util.Random;
 
 public class PrimeGenerator {
 
+    public static BigInteger generateRandomPrimeIntegerWithBitLength(int bitLength) {
+        return generateRandomPrimeBigIntegerWithBitLengthInRange(bitLength, bitLength);
+    }
+
+    public static BigInteger generateRandomPrimeBigIntegerWithBitLengthInRange(int minBitLength, int maxBitLength) {
+        BigInteger two = BigInteger.valueOf(2);
+        return generateRandomPrimeBigIntegerInRange(two.pow(minBitLength-1), two.pow(maxBitLength));
+    }
+
     public static BigInteger generateRandomPrimeBigIntegerInRange(BigInteger min, BigInteger max) {
         BigInteger x = generateRandomBigIntegerInRange(min, max);
         BigInteger two = BigInteger.valueOf(2);
