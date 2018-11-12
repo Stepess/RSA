@@ -69,6 +69,10 @@ public class RSA {
         return numPair;
     }
 
+    public void setKey(RSAKey key) {
+        this.key = key;
+    }
+
     public RSAKey getKey() {
         return key;
     }
