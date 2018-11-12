@@ -16,6 +16,14 @@ public class RSA {
         return cryptogram.modPow(key.getPrivateKey().getD(), key.getPublicKey().getN());
     }
 
+    public BigInteger sign(BigInteger text) {
+        return text.modPow(key.getPrivateKey().getD(), key.getPublicKey().getN());
+    }
+
+    public boolean verify(BigInteger text, BigInteger signature) {
+        return signature.modPow(key.getPublicKey().getE(), key.getPublicKey().getN()).equals(text);
+    }
+
 
     public RSAKey generateKeyPair() {
         BigInteger[] primeNums = generateKeyPrimeNumbersForKey();
