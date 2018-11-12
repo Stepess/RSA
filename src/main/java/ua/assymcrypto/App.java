@@ -22,25 +22,7 @@ public class App
         System.out.println(Arrays.toString(pair));
         System.out.println(pair[0].toString(16));*/
 
-        RSA rsa = new RSA();
-        RSAKey key = rsa.generateKeyPair();
 
-        System.out.println(key);
-
-        BigInteger text = PrimeGenerator.generateRandomBigIntegerInRange(BigInteger.ZERO,
-                key.getPublicKey().getN().subtract(BigInteger.ONE));
-
-        System.out.println(text.toString(16));
-
-        BigInteger cypher = rsa.encrypt(text);
-
-        System.out.println(cypher.toString(16));
-
-        BigInteger plainTextAfterDecription = rsa.decrypt(cypher);
-
-        System.out.println(plainTextAfterDecription.toString(16));
-
-        System.out.println(plainTextAfterDecription.equals(text));
 
 
 
