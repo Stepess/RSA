@@ -24,6 +24,25 @@ public class RSA {
         return signature.modPow(key.getPublicKey().getE(), key.getPublicKey().getN()).equals(text);
     }
 
+    public SignedMessage sendKey(BigInteger k, BigInteger e, BigInteger n) {
+        BigInteger signature = sign(k);
+        return new SignedMessage(k.modPow(e, n), signature.modPow(e, n));
+    }
+
+    public BigInteger receiveKey(SignedMessage message, BigInteger e, BigInteger n) {
+        BigInteger key = decrypt(message.getMessage());
+        BigInteger signature = decrypt(message.getSignature());
+
+        boolean verificationResult = signature.modPow(e, n).equals(key);
+        System.out.println("Key Verification: " + verificationResult);
+
+        if (!verificationResult) {
+            throw new RuntimeException("Key Verification failed");
+        }
+
+        return key;
+    }
+
 
     public RSAKey generateKeyPair() {
         BigInteger[] primeNums = generateKeyPrimeNumbersForKey();
@@ -53,20 +72,20 @@ public class RSA {
         BigInteger two = BigInteger.valueOf(2);
         BigInteger[] numPair = new BigInteger[2];
 
-        numPair[0] = PrimeGenerator.generateRandomPrimeIntegerWithBitLength(keySize-1);
-        numPair[1] = PrimeGenerator.generateRandomPrimeIntegerWithBitLength(keySize-1);
+        numPair[0] = PrimeGenerator.generateRandomPrimeIntegerWithBitLength(keySize - 1);
+        numPair[1] = PrimeGenerator.generateRandomPrimeIntegerWithBitLength(keySize - 1);
 
         BigInteger p = numPair[0].multiply(BigInteger.valueOf(2)).add(BigInteger.ONE);
         BigInteger q = numPair[1].multiply(BigInteger.valueOf(2)).add(BigInteger.ONE);
 
         int i = 2;
-        while(!PrimeTests.isPrime(p)) {
+        while (!PrimeTests.isPrime(p)) {
             p = numPair[0].multiply(two).multiply(BigInteger.valueOf(i)).add(BigInteger.ONE);
             i++;
         }
 
         int j = 2;
-        while(!PrimeTests.isPrime(q)) {
+        while (!PrimeTests.isPrime(q)) {
             q = numPair[1].multiply(two).multiply(BigInteger.valueOf(j)).add(BigInteger.ONE);
             j++;
         }
